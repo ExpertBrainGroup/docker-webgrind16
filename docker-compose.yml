@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+    php-apache:
+        build:
+            context: ./php-apache
+        image: expertbraingroup/webgrind16
+        ports:
+            - 80:80
+        volumes:
+            - ./html:/var/www/html:z
+            - ./php-apache/conf:/etc/apache2/sites-enabled:z
+            - ./php-apache/logs:/var/log/apache2:z
+#            - ./php-apache/php-conf:/usr/local/etc/php/conf.d:z
+        links:
+            - 'mariadb'
+        depends_on:
+            - 'mariadb'
+        restart: always
+
+    mariadb:
+        image: mariadb:10.1
+        environment:
+            TZ: "Europe/Rome"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "rootpwd"
+            MYSQL_USER: 'testuser'
+            MYSQL_PASSWORD: 'testpassword'
+            MYSQL_DATABASE: 'testdb'
+        hostname: mariadb
