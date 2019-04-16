@@ -6,6 +6,7 @@ services:
         image: expertbraingroup/webgrind16
         ports:
             - 80:80
+        env_file: .env
         volumes:
             - ./html:/var/www/html:z
             - ./php-apache/conf:/etc/apache2/sites-enabled:z
